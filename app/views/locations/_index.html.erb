@@ -1,0 +1,33 @@
+<div class="panel panel-default">
+  <div class="panel-heading">Geocoded Locations (<%= @locations.size %> and counting...)</div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Street Address</th>
+          <th>City</th>
+          <th>State</th>
+          <th>Country</th>
+          <th>Latitude</th>
+          <th>Longitude</th>
+        </tr>
+      </thead>
+      <% @locations.desc.each do |location| %>
+      <tbody>
+        <tr>
+          <td><%= location.street_address %></td>
+          <td><%= location.city  %></td>
+          <td><%= location.state %></td>
+          <td><%= location.country %></td>
+          <td><%= location.latitude %></td>
+          <td><%= location.longitude %></td>
+        </tr>
+      </tbody>
+      <% end %>
+    <table>
+  </div>
+   <div class="panel-footer">Search results powered by
+     <a href="https://developers.google.com/maps/documentation/geocoding/intro" target="_blank">
+       Google Maps API
+     </a>.
+   </div>
+</div>
