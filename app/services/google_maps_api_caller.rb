@@ -27,14 +27,11 @@ class GoogleMapsApiCaller
   end
 
   def request_query_string
-    query_params.select { |_, v| v.present? }.values.each do |value|
-      value.gsub!(/\s/,'+')
-    end.compact.join(",")
-  end
-
-  def hash_to_query(query)
     require 'cgi' unless defined?(CGI) && defined?(CGI.escape)
-    query.map{ |p| CGI.escape p.to_s }.compact.sort * '&'
+
+    query_params.select { |_, v| v.present? }.values.each do |value|
+      CGI.escape(value).gsub!(/\s/,'+')
+    end.compact.join(",")
   end
 
   attr_writer :query_params
