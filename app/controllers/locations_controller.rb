@@ -4,12 +4,14 @@ class LocationsController < ApplicationController
   end
 
   def create
+    msg = nil
+
     if query_params_present_in_form?
       results = call_to_api_for_location_data
       parsed_results = parse_api_results(results)
 
       if parsed_results[:data].empty?
-        flash[:notice] = 'No results match your query. Please try another search.'
+        msg = 'No results match your query. Please try another search.'
       else
         @location_results = LocationResults.new(parsed_results[:data].first)
 
@@ -17,8 +19,14 @@ class LocationsController < ApplicationController
           create_new_location(@location_results)
         end
 
-        flash[:notice] = "Your location has coordinates #{@location_results.latitude}, #{@location_results.longitude}"
-      end
+        msg = "Your location has coordinates #{@location_results.latitude}, #{@location_results.longitude}."
+
+        if @location_results.partial_match
+          msg = msg + " " + "The geocoder was only able to match part of your search, so these results are approximate"
+        end
+
+        flash[:notice] = msg
+       end
     else
       flash[:error] = 'Please fill in at least one form field.'
     end
