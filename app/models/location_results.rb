@@ -1,11 +1,6 @@
 class LocationResults
-
-  # data (hash) fetched from geocoding service
   attr_accessor :data
 
-  ##
-  # Takes a hash of data from a parsed geocoding service response.
-  #
   def initialize(data)
     @data = data
   end
