@@ -1,10 +1,10 @@
 require 'httparty'
 
 class GoogleMapsApiCaller
-  attr_reader :query_params
+  attr_reader :place_id
 
-  def initialize(query_params)
-    @query_params = query_params
+  def initialize(place_id)
+    @place_id = place_id
   end
 
   def call
@@ -19,20 +19,16 @@ class GoogleMapsApiCaller
   end
 
   def form_query
-    query_url + request_query_string
+    "#{query_url}#{@place_id}&key=#{api_key}"
+  end
+
+  def api_key
+    "AIzaSyAh8gDRXvu_aLNvyta6gKngau3zqxs46B4"
   end
 
   def query_url
-    "https://maps.googleapis.com/maps/api/geocode/json?address="
+    "https://maps.googleapis.com/maps/api/geocode/json?place_id="
   end
 
-  def request_query_string
-    require 'cgi' unless defined?(CGI) && defined?(CGI.escape)
-
-    query_params.select { |_, v| v.present? }.values.each do |value|
-      CGI.escape(value).gsub!(/\s/,'+')
-    end.compact.join(",")
-  end
-
-  attr_writer :query_params
+  attr_writer :place_id
 end

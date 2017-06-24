@@ -7,6 +7,7 @@ class CreateLocations < ActiveRecord::Migration[5.0]
       t.string :country
       t.decimal :latitude, precision: 8, scale: 6
       t.decimal :longitude, precision: 9, scale: 6
+      t.string :place_id
 
       t.timestamps
     end
