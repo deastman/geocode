@@ -1,7 +1,6 @@
 class LocationsController < ApplicationController
-  before_filter :set_locations
-
   def new
+    set_locations
   end
 
   def create
