@@ -20,4 +20,8 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  no_results: "No results match your query. Please try another search."
+  new_result_and_save_success: "This location has a latitude of %{latitude} and a longitude of %{longitude} and we've saved it to our database!"
+  new_result_and_save_failure: "This location has a latitude of %{latitude} and a longitude of %{longitude}, but we couldn't save it to our database."
+  location_already_exists: "This location has a latitude of %{latitude} and a longitude of %{longitude} and we already have it in our database!"
+  invalid_search: "We couldn't understand your search terms. Please try another search."
