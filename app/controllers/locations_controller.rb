@@ -5,6 +5,7 @@ class LocationsController < ApplicationController
 
   def create
     if location_params[:place_id].present?
+      # If the location already exists in the db, we don't need to call to the Google Maps API
       @location_results = Location.find_by_place_id(location_params[:place_id]).first
 
       if @location_results.blank?
@@ -69,10 +70,6 @@ class LocationsController < ApplicationController
     location.place_id = location_results.place_id
 
     location.save!
-  end
-
-  def location_already_in_db?(location_results)
-    Location.find_by_place_id(location_results.place_id).any?
   end
 
   def params_place_id
