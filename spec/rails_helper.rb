@@ -58,8 +58,8 @@ RSpec.configure do |config|
   end
 
   config.include AutocompleteHelper, type: :feature
-  config.include JsonFixtures, type: :feature
   config.include GoogleMapsApiHelpers, type: :feature
+  config.include FeatureSpecHelpers, type: :feature
 
   Shoulda::Matchers.configure do |config|
     config.integrate do |with|
