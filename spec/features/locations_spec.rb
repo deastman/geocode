@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Locations' do
 
   describe 'create' do
-    it 'creates a new location', js: true do
+    it 'creates a new location' do
       visit polymorphic_path([:new, :location])
 
       fill_in_autocomplete_field("1400 Amphitheatre Pkwy, Mountain View, CA")
@@ -29,9 +29,9 @@ RSpec.feature 'Locations' do
     end
 
     context 'invalid search terms' do
-      it 'shows an error message if the search parameters are missing', js: true do
-        visit polymorphic_path([:new, :location])
+      before { visit polymorphic_path([:new, :location]) }
 
+      it 'shows an error message if the search parameters are missing' do
         fill_in_autocomplete_field("")
 
         click_button('Search')
@@ -44,9 +44,7 @@ RSpec.feature 'Locations' do
       end
 
       context 'response' do
-        it 'shows an error message if the returned response is not OK', js: true do
-          visit polymorphic_path([:new, :location])
-
+        it 'shows an error message if the returned response is not OK' do
           fill_in_autocomplete_field("anything")
 
           stub_invalid_request
@@ -60,9 +58,7 @@ RSpec.feature 'Locations' do
           expect(Location.all.length).to eq(0)
         end
 
-        it 'logs an error if the returned response is not OK', js: true do
-          visit polymorphic_path([:new, :location])
-
+        it 'logs an error if the returned response is not OK' do
           fill_in_autocomplete_field("anything")
 
           stub_invalid_request
@@ -102,6 +98,42 @@ RSpec.feature 'Locations' do
 
         expect(Location.all.length).to eq(1)
       end
+    end
+  end
+
+  describe 'new' do
+    let!(:location_1) { FactoryGirl.create(:location, city: "Boston", state: "MA", country: "United States") }
+
+    let!(:location_2) do
+      FactoryGirl.create(
+        :location,
+        city: "Chicago",
+        state: "IL",
+        street_address: "12234 South Michigan Avenue",
+        country: "United States"
+      )
+    end
+
+    before { visit polymorphic_path([:new, :location]) }
+
+    it 'contains a search field for a location' do
+      expect(page).to have_css("input#pac-input")
+    end
+
+    it 'displays the right location data in a table' do
+      expect(table_data_by_row_and_column(1, 1)).to eq("12234 South Michigan Avenue")
+      expect(table_data_by_row_and_column(1, 2)).to eq("Chicago")
+      expect(table_data_by_row_and_column(1, 3)).to eq("IL")
+      expect(table_data_by_row_and_column(1, 4)).to eq("United States")
+      expect(table_data_by_row_and_column(1, 5)).to eq(location_2.latitude.to_s)
+      expect(table_data_by_row_and_column(1, 6)).to eq(location_2.longitude.to_s)
+
+      expect(table_data_by_row_and_column(2, 1)).to eq("")
+      expect(table_data_by_row_and_column(2, 2)).to eq("Boston")
+      expect(table_data_by_row_and_column(2, 3)).to eq("MA")
+      expect(table_data_by_row_and_column(2, 4)).to eq("United States")
+      expect(table_data_by_row_and_column(2, 5)).to eq(location_1.latitude.to_s)
+      expect(table_data_by_row_and_column(2, 6)).to eq(location_1.longitude.to_s)
     end
   end
 end
