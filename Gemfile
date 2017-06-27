@@ -33,17 +33,25 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 gem 'httparty'
 
+group :test do
+  gem "capybara"
+  gem "selenium-webdriver"
+  gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git', branch: 'rails-5'
+end
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
   gem 'sqlite3'
-  gem 'web-console'
   gem 'spring'
+  gem "database_cleaner"
+  gem "rspec-rails"
 end
 
 group :development do
   gem 'listen', '~> 3.0.5'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'web-console'
 end
 
 group :production do
