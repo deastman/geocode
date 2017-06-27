@@ -11,8 +11,8 @@
           <th>Longitude</th>
         </tr>
       </thead>
-      <% @locations.desc.each do |location| %>
       <tbody>
+      <% @locations.desc.each do |location| %>
         <tr>
           <td><%= location.street_address %></td>
           <td><%= location.city  %></td>
@@ -21,8 +21,8 @@
           <td><%= location.latitude %></td>
           <td><%= location.longitude %></td>
         </tr>
-      </tbody>
       <% end %>
+      </tbody>
     <table>
   </div>
    <div class="panel-footer">Search results powered by the
