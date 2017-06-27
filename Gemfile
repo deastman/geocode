@@ -37,6 +37,8 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git', branch: 'rails-5'
+  gem 'poltergeist'
+  gem 'launchy'
 end
 
 group :development, :test do
@@ -46,6 +48,8 @@ group :development, :test do
   gem 'spring'
   gem "database_cleaner"
   gem "rspec-rails"
+  gem 'factory_girl_rails'
+  gem 'webmock'
 end
 
 group :development do
